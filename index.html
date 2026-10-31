@@ -1,0 +1,1054 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webify Arcade | Webify Studio</title>
+<meta name="theme-color" content="#090b14">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg:#090b14;
+  --panel:#111526;
+  --panel2:#191e32;
+  --purple:#a78bfa;
+  --cyan:#67e8f9;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --border:#292d45;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  min-height:100vh;
+}
+
+button{font:inherit;cursor:pointer}
+
+header{
+  padding:20px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  background:#0d1020;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+.brand{font-size:20px;font-weight:900;letter-spacing:1px}
+.brand span{color:var(--purple)}
+.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:3px}
+.header-tag{color:var(--cyan);font-size:11px;font-weight:700}
+
+main{
+  max-width:1050px;
+  margin:auto;
+  padding:45px 20px 70px;
+  transition:max-width .3s ease;
+}
+
+.hero{text-align:center;margin:15px 0 38px}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:3px}
+
+.hero h1{
+  font-size:clamp(38px,8vw,68px);
+  margin:13px 0;
+  letter-spacing:-3px;
+}
+
+.hero h1 span{
+  background:linear-gradient(90deg,var(--purple),var(--cyan));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero p{color:var(--muted);font-size:14px;line-height:1.7}
+
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:25px 0;
+}
+
+.stat{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 22px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.stat b{
+  color:var(--cyan);
+  font-size:17px;
+  display:block;
+  margin-bottom:4px;
+}
+
+.section-title{font-size:18px;margin:35px 0 17px}
+
+.games{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
+.game-card{
+  background:linear-gradient(145deg,#171b30,#101323);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  transition:.25s;
+}
+
+.game-card:hover{
+  transform:translateY(-5px);
+  border-color:var(--purple);
+  box-shadow:0 10px 35px #8b5cf622;
+}
+
+.game-icon{font-size:38px}
+.game-card h3{margin:13px 0 7px}
+.game-card p{color:var(--muted);font-size:12px;line-height:1.6;min-height:38px}
+
+.play-btn,.primary{
+  border:0;
+  border-radius:9px;
+  padding:12px 18px;
+  color:white;
+  font-weight:800;
+  background:linear-gradient(90deg,#7c3aed,#0891b2);
+}
+
+.play-btn{width:100%;margin-top:12px}
+.play-btn:hover,.primary:hover{filter:brightness(1.2)}
+
+.game-screen{
+  display:none;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:25px;
+  margin-top:20px;
+  text-align:center;
+  animation:appear .3s ease;
+}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.game-screen h2{margin-top:0}
+
+.back{
+  background:var(--panel2);
+  color:var(--text);
+  border:1px solid var(--border);
+  padding:9px 15px;
+  border-radius:9px;
+  margin-bottom:20px;
+}
+
+.result{
+  color:var(--cyan);
+  font-weight:800;
+  min-height:28px;
+  margin:20px 0;
+}
+
+.big-buttons{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.choice{
+  background:var(--panel2);
+  border:1px solid var(--border);
+  color:white;
+  border-radius:14px;
+  padding:17px;
+  font-size:35px;
+  min-width:80px;
+  transition:.2s;
+}
+
+.choice:hover,.choice:focus{
+  border-color:var(--purple);
+  transform:scale(1.08);
+}
+
+.score-row{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+  color:var(--muted);
+}
+
+.score-row b{
+  color:var(--cyan);
+  font-size:22px;
+  display:block;
+}
+
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(2,95px);
+  justify-content:center;
+  gap:12px;
+  margin:25px auto;
+}
+
+.memory-tile{
+  height:95px;
+  border:3px solid #ffffff15;
+  border-radius:16px;
+  opacity:.7;
+  transition:.15s;
+}
+
+.memory-tile.active{
+  opacity:1;
+  filter:brightness(1.7);
+  transform:scale(1.07);
+  box-shadow:0 0 25px currentColor;
+}
+
+.memory-tile:disabled{cursor:not-allowed}
+.m0{background:#ef4444;color:#ef4444}
+.m1{background:#3b82f6;color:#3b82f6}
+.m2{background:#22c55e;color:#22c55e}
+.m3{background:#eab308;color:#eab308}
+
+.reaction-box{
+  height:210px;
+  border-radius:16px;
+  background:#27233e;
+  display:grid;
+  place-items:center;
+  margin:20px 0;
+  font-size:20px;
+  font-weight:800;
+  user-select:none;
+  cursor:pointer;
+  padding:20px;
+}
+
+.reaction-box.ready{background:#16a34a}
+.reaction-box.wait{background:#b45309}
+
+.board{
+  display:grid;
+  grid-template-columns:repeat(3,90px);
+  justify-content:center;
+  gap:9px;
+  margin:25px auto;
+}
+
+.cell{
+  height:90px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:var(--cyan);
+  font-size:38px;
+  font-weight:900;
+}
+
+.cell:hover{border-color:var(--purple)}
+
+select{
+  background:var(--panel2);
+  color:white;
+  border:1px solid var(--border);
+  padding:10px;
+  border-radius:9px;
+  margin:10px;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+footer b{color:var(--purple)}
+
+/* DEVICE MODE SWITCHER */
+.device-switch{margin:30px auto;text-align:center}
+.device-switch p{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.device-buttons{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.device-btn{
+  background:var(--panel);
+  color:var(--muted);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 20px;
+  font-weight:700;
+  transition:.25s;
+}
+
+.device-btn.active{
+  color:white;
+  background:#39256b;
+  border-color:var(--purple);
+  box-shadow:0 0 18px #a78bfa33;
+}
+
+.device-status{
+  color:var(--cyan);
+  font-size:11px;
+  margin-top:12px;
+}
+
+body.phone-view main{max-width:480px}
+body.phone-view .games{grid-template-columns:1fr}
+body.phone-view .hero h1{font-size:40px}
+body.desktop-view main{max-width:1100px}
+body.desktop-view .games{grid-template-columns:repeat(2,1fr)}
+body.desktop-view .hero h1{font-size:clamp(38px,8vw,68px)}
+
+/* ROCK PAPER SCISSORS ANIMATION */
+.rps-arena{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(15px,6vw,65px);
+  margin:30px auto 15px;
+}
+
+.rps-player{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+
+.rps-label{
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--cyan);
+  font-weight:800;
+}
+
+.rps-hand{
+  width:120px;
+  height:120px;
+  display:grid;
+  place-items:center;
+  background:var(--panel2);
+  border:2px solid var(--purple);
+  border-radius:25px;
+  font-size:65px;
+  box-shadow:0 0 25px #a78bfa22;
+}
+
+.computer-hand{transform:scaleX(-1)}
+
+.rps-vs{
+  color:var(--purple);
+  font-weight:900;
+  font-size:20px;
+}
+
+.rps-count{
+  font-size:20px;
+  font-weight:900;
+  color:var(--cyan);
+  margin:20px 0;
+  letter-spacing:3px;
+}
+
+.rps-hand.shaking{animation:handShake .35s ease-in-out 3}
+
+@keyframes handShake{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-20px) rotate(-15deg)}
+  50%{transform:translateY(0) rotate(10deg)}
+  75%{transform:translateY(-15px) rotate(-10deg)}
+}
+
+.computer-hand.shaking{animation:computerShake .35s ease-in-out 3}
+
+@keyframes computerShake{
+  0%,100%{transform:scaleX(-1) translateY(0)}
+  25%{transform:scaleX(-1) translateY(-20px) rotate(-15deg)}
+  50%{transform:scaleX(-1) translateY(0) rotate(10deg)}
+  75%{transform:scaleX(-1) translateY(-15px) rotate(-10deg)}
+}
+
+.choice:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+@media(max-width:600px){
+  header{padding:17px 5%}
+  .header-tag{font-size:9px}
+  main{padding:30px 15px}
+  .games{grid-template-columns:1fr}
+  .game-screen{padding:17px}
+  .board{grid-template-columns:repeat(3,76px)}
+  .cell{height:76px}
+}
+
+@media(max-width:450px){
+  .rps-hand{
+    width:85px;
+    height:85px;
+    font-size:48px;
+    border-radius:18px;
+  }
+  .rps-arena{gap:12px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">WEBIFY <span>ARCADE</span>
+    <small>BY WEBIFY STUDIO</small>
+  </div>
+  <div class="header-tag">● ONLINE GAME CENTER</div>
+</header>
+
+<main>
+
+  <section class="hero" id="home">
+    <div class="eyebrow">WEBIFY STUDIO PRESENTS</div>
+    <h1>PLAY. <span>CHALLENGE.</span></h1>
+    <p>Four mini games. One destination.<br>Choose your game and beat your best score.</p>
+
+    <div class="stats">
+      <div class="stat"><b>04</b>MINI GAMES</div>
+      <div class="stat"><b id="totalWins">0</b>TOTAL WINS</div>
+      <div class="stat"><b id="bestReaction">—</b>BEST REACTION</div>
+    </div>
+
+    <div class="device-switch">
+      <p>CHOOSE YOUR DEVICE VIEW</p>
+      <div class="device-buttons">
+        <button class="device-btn" id="phoneMode" onclick="setDeviceMode('phone')">
+          📱 Handphone
+        </button>
+        <button class="device-btn" id="desktopMode" onclick="setDeviceMode('desktop')">
+          🖥️ Desktop
+        </button>
+      </div>
+      <div class="device-status" id="deviceStatus">Desktop View Activated</div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <h2 class="section-title">⚡ Choose Your Game</h2>
+
+    <div class="games">
+
+      <article class="game-card">
+        <div class="game-icon">✊</div>
+        <h3>Rock Paper Scissors</h3>
+        <p>Challenge the computer. Can you win?</p>
+        <button class="play-btn" onclick="openGame('rps')">PLAY NOW ↗</button>
+      </article>
+
+      <article class="game-card">
+        <div class="game-icon">🧠</div>
+        <h3>Memory Challenge</h3>
+        <p>Remember the color sequence and reach a new level.</p>
+        <button class="play-btn" onclick="openGame('memory')">PLAY NOW ↗</button>
+      </article>
+
+      <article class="game-card">
+        <div class="game-icon">⚡</div>
+        <h3>Reaction Test</h3>
+        <p>Test your reflexes. How fast are you?</p>
+        <button class="play-btn" onclick="openGame('reaction')">PLAY NOW ↗</button>
+      </article>
+
+      <article class="game-card">
+        <div class="game-icon">⭕</div>
+        <h3>Tic Tac Toe</h3>
+        <p>Play with a friend or challenge the computer.</p>
+        <button class="play-btn" onclick="openGame('ttt')">PLAY NOW ↗</button>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ROCK PAPER SCISSORS -->
+  <section class="game-screen" id="rps">
+    <button class="back" onclick="goHome()">← BACK TO ARCADE</button>
+    <h2>✊ Rock Paper Scissors</h2>
+
+    <div class="score-row">
+      <div><b id="rWins">0</b>You</div>
+      <div><b id="rDraws">0</b>Draws</div>
+      <div><b id="rLosses">0</b>Computer</div>
+    </div>
+
+    <p>Choose your move!</p>
+
+    <div class="rps-arena">
+      <div class="rps-player">
+        <span class="rps-label">YOU</span>
+        <div class="rps-hand" id="playerHand">✊</div>
+      </div>
+
+      <div class="rps-vs">VS</div>
+
+      <div class="rps-player">
+        <span class="rps-label">COMPUTER</span>
+        <div class="rps-hand computer-hand" id="computerHand">✊</div>
+      </div>
+    </div>
+
+    <div class="rps-count" id="rpsCount">READY?</div>
+
+    <div class="big-buttons">
+      <button class="choice" onclick="playRPS('rock')">✊</button>
+      <button class="choice" onclick="playRPS('paper')">✋</button>
+      <button class="choice" onclick="playRPS('scissors')">✌️</button>
+    </div>
+
+    <div class="result" id="rResult">Choose your move to start!</div>
+    <button class="back" onclick="resetRPS()">RESET SCORE</button>
+  </section>
+
+  <!-- MEMORY -->
+  <section class="game-screen" id="memory">
+    <button class="back" onclick="goHome()">← BACK TO ARCADE</button>
+    <h2>🧠 Memory Challenge</h2>
+    <p>Watch the sequence, then repeat it!</p>
+    <h3 id="memoryLevel">Level 1</h3>
+
+    <div class="memory-grid">
+      <button class="memory-tile m0" onclick="memoryPick(0)" disabled></button>
+      <button class="memory-tile m1" onclick="memoryPick(1)" disabled></button>
+      <button class="memory-tile m2" onclick="memoryPick(2)" disabled></button>
+      <button class="memory-tile m3" onclick="memoryPick(3)" disabled></button>
+    </div>
+
+    <div class="result" id="memoryResult">Press START to begin.</div>
+    <button class="primary" id="memoryStart" onclick="startMemory()">START GAME</button>
+  </section>
+
+  <!-- REACTION -->
+  <section class="game-screen" id="reaction">
+    <button class="back" onclick="goHome()">← BACK TO ARCADE</button>
+    <h2>⚡ Reaction Test</h2>
+    <p>Wait for green, then click as fast as possible!</p>
+
+    <div class="reaction-box" id="reactionBox" onclick="reactionClick()">
+      PRESS START TO BEGIN
+    </div>
+
+    <div class="result" id="reactionResult">Your reaction time will appear here.</div>
+    <p id="reactionBest">Best: —</p>
+    <button class="primary" onclick="startReaction()">START TEST</button>
+  </section>
+
+  <!-- TIC TAC TOE -->
+  <section class="game-screen" id="ttt">
+    <button class="back" onclick="goHome()">← BACK TO ARCADE</button>
+    <h2>⭕ Tic Tac Toe</h2>
+
+    <select id="tttMode" onchange="resetTTT()">
+      <option value="friend">2 Players</option>
+      <option value="computer">Vs Computer</option>
+    </select>
+
+    <p id="tttStatus">Player X's turn</p>
+    <div class="board" id="board"></div>
+    <div class="result" id="tttResult"></div>
+    <button class="primary" onclick="resetTTT()">NEW GAME</button>
+  </section>
+
+</main>
+
+<footer>
+  <p>CODE. CREATE. INNOVATE.</p>
+  <b>WEBIFY STUDIO</b> · © 2026
+</footer>
+
+<script>
+// GENERAL
+const screens = document.querySelectorAll('.game-screen');
+const menu = document.getElementById('menu');
+
+let wins = Number(localStorage.getItem('waWins') || 0);
+document.getElementById('totalWins').textContent = wins;
+
+function addWin(){
+  wins++;
+  localStorage.setItem('waWins',wins);
+  document.getElementById('totalWins').textContent=wins;
+}
+
+function openGame(id){
+  menu.style.display='none';
+  document.getElementById('home').style.display='none';
+  screens.forEach(s=>s.style.display='none');
+  document.getElementById(id).style.display='block';
+  if(id==='ttt') resetTTT();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goHome(){
+  screens.forEach(s=>s.style.display='none');
+  menu.style.display='block';
+  document.getElementById('home').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// DEVICE VIEW MODE
+function setDeviceMode(mode){
+  document.body.classList.remove('phone-view','desktop-view');
+  document.body.classList.add(mode+'-view');
+
+  document.getElementById('phoneMode').classList.toggle('active',mode==='phone');
+  document.getElementById('desktopMode').classList.toggle('active',mode==='desktop');
+
+  document.getElementById('deviceStatus').textContent =
+    mode==='phone'?'Mobile View Activated':'Desktop View Activated';
+
+  localStorage.setItem('waDeviceMode',mode);
+}
+
+const savedDeviceMode=localStorage.getItem('waDeviceMode')||'desktop';
+setDeviceMode(savedDeviceMode);
+
+// SOUND
+let audio;
+
+function beep(freq=440,duration=.12){
+  try{
+    audio=audio||new (window.AudioContext||window.webkitAudioContext)();
+    const osc=audio.createOscillator();
+    const gain=audio.createGain();
+
+    osc.frequency.value=freq;
+    gain.gain.value=.07;
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration);
+    osc.stop(audio.currentTime+duration);
+  }catch(e){}
+}
+
+// ROCK PAPER SCISSORS V2
+let rw=0,rd=0,rl=0;
+let rpsBusy=false;
+
+const handEmoji={
+  rock:'✊',
+  paper:'✋',
+  scissors:'✌️'
+};
+
+const rpsButtons=document.querySelectorAll('#rps .choice');
+
+async function playRPS(user){
+  if(rpsBusy)return;
+
+  rpsBusy=true;
+  rpsButtons.forEach(b=>b.disabled=true);
+
+  const moves=['rock','paper','scissors'];
+  const computer=moves[Math.floor(Math.random()*moves.length)];
+
+  const playerHand=document.getElementById('playerHand');
+  const computerHand=document.getElementById('computerHand');
+  const count=document.getElementById('rpsCount');
+  const result=document.getElementById('rResult');
+
+  playerHand.classList.remove('shaking');
+  computerHand.classList.remove('shaking');
+
+  playerHand.textContent='✊';
+  computerHand.textContent='✊';
+
+  result.textContent='Get ready...';
+  count.textContent='3';
+
+  await sleep(500);
+
+  for(let i=2;i>=0;i--){
+    count.textContent=i===0?'SUIT!':i.toString();
+
+    playerHand.classList.remove('shaking');
+    computerHand.classList.remove('shaking');
+
+    void playerHand.offsetWidth;
+
+    playerHand.classList.add('shaking');
+    computerHand.classList.add('shaking');
+
+    beep(350+i*100,.12);
+    await sleep(350);
+  }
+
+  playerHand.classList.remove('shaking');
+  computerHand.classList.remove('shaking');
+
+  playerHand.textContent=handEmoji[user];
+  computerHand.textContent=handEmoji[computer];
+
+  let message='';
+
+  if(user===computer){
+    rd++;
+    message="IT’S A DRAW!";
+  }
+  else if(
+    (user==='rock'&&computer==='scissors')||
+    (user==='paper'&&computer==='rock')||
+    (user==='scissors'&&computer==='paper')
+  ){
+    rw++;
+    message='YOU WIN!';
+    addWin();
+  }
+  else{
+    rl++;
+    message='COMPUTER WINS!';
+  }
+
+  count.textContent='RESULT!';
+  result.textContent=`${user.toUpperCase()} vs ${computer.toUpperCase()} — ${message}`;
+
+  document.getElementById('rWins').textContent=rw;
+  document.getElementById('rDraws').textContent=rd;
+  document.getElementById('rLosses').textContent=rl;
+
+  beep(user===computer?440:message==='YOU WIN!'?750:250,.25);
+
+  await sleep(700);
+
+  rpsBusy=false;
+  rpsButtons.forEach(b=>b.disabled=false);
+}
+
+function resetRPS(){
+  if(rpsBusy)return;
+
+  rw=rd=rl=0;
+
+  document.getElementById('rWins').textContent=0;
+  document.getElementById('rDraws').textContent=0;
+  document.getElementById('rLosses').textContent=0;
+
+  document.getElementById('playerHand').textContent='✊';
+  document.getElementById('computerHand').textContent='✊';
+
+  document.getElementById('rpsCount').textContent='READY?';
+  document.getElementById('rResult').textContent='Choose your move to start!';
+
+  rpsButtons.forEach(b=>b.disabled=false);
+}
+
+// MEMORY CHALLENGE
+const tiles=[...document.querySelectorAll('.memory-tile')];
+let sequence=[],memoryIndex=0,memoryBusy=false,level=0;
+
+function sleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+async function flashTile(i){
+  tiles[i].classList.add('active');
+  beep([330,390,460,550][i],.16);
+  await sleep(350);
+  tiles[i].classList.remove('active');
+  await sleep(180);
+}
+
+async function showSequence(){
+  memoryBusy=true;
+  tiles.forEach(t=>t.disabled=true);
+
+  document.getElementById('memoryResult').textContent='Watch carefully...';
+
+  await sleep(500);
+
+  for(const n of sequence) await flashTile(n);
+
+  memoryBusy=false;
+  tiles.forEach(t=>t.disabled=false);
+
+  document.getElementById('memoryResult').textContent='Your turn! Repeat the sequence.';
+}
+
+function startMemory(){
+  sequence=[];
+  level=0;
+
+  document.getElementById('memoryStart').style.display='none';
+  nextMemory();
+}
+
+function nextMemory(){
+  level++;
+  memoryIndex=0;
+
+  document.getElementById('memoryLevel').textContent='Level '+level;
+
+  sequence.push(Math.floor(Math.random()*4));
+  showSequence();
+}
+
+async function memoryPick(i){
+  if(memoryBusy)return;
+
+  await flashTile(i);
+
+  if(i!==sequence[memoryIndex]){
+    memoryBusy=true;
+    tiles.forEach(t=>t.disabled=true);
+
+    document.getElementById('memoryResult').textContent=
+      `GAME OVER! You reached level ${level}.`;
+
+    document.getElementById('memoryStart').textContent='PLAY AGAIN';
+    document.getElementById('memoryStart').style.display='inline-block';
+
+    beep(160,.4);
+    return;
+  }
+
+  memoryIndex++;
+
+  if(memoryIndex===sequence.length){
+    memoryBusy=true;
+    tiles.forEach(t=>t.disabled=true);
+
+    document.getElementById('memoryResult').textContent='CORRECT! LEVEL COMPLETE!';
+
+    addWin();
+    beep(750,.2);
+
+    await sleep(800);
+    nextMemory();
+  }
+}
+
+// REACTION TEST
+let reactionState='idle',reactionStart=0,reactionTimeout=null;
+let best=Number(localStorage.getItem('waBestReaction')||0);
+
+const reactionBox=document.getElementById('reactionBox');
+
+function showBest(){
+  const value=best?best+' ms':'—';
+  document.getElementById('reactionBest').textContent='Best: '+value;
+  document.getElementById('bestReaction').textContent=value;
+}
+
+showBest();
+
+function startReaction(){
+  clearTimeout(reactionTimeout);
+
+  reactionState='waiting';
+  reactionBox.className='reaction-box';
+  reactionBox.classList.add('wait');
+  reactionBox.textContent='WAIT FOR GREEN...';
+
+  document.getElementById('reactionResult').textContent='Do not click yet!';
+
+  reactionTimeout=setTimeout(()=>{
+    if(reactionState!=='waiting')return;
+
+    reactionState='ready';
+    reactionStart=performance.now();
+
+    reactionBox.className='reaction-box ready';
+    reactionBox.textContent='CLICK NOW!';
+
+    beep(800,.15);
+  },1500+Math.random()*3000);
+}
+
+function reactionClick(){
+  if(reactionState==='waiting'){
+    clearTimeout(reactionTimeout);
+    reactionState='idle';
+
+    reactionBox.className='reaction-box';
+    reactionBox.textContent='TOO EARLY!';
+
+    document.getElementById('reactionResult').textContent='False start! Try again.';
+  }
+  else if(reactionState==='ready'){
+    const time=Math.round(performance.now()-reactionStart);
+
+    reactionState='done';
+    reactionBox.className='reaction-box';
+    reactionBox.textContent='NICE REFLEX!';
+
+    document.getElementById('reactionResult').textContent='Your time: '+time+' ms';
+
+    if(!best||time<best){
+      best=time;
+      localStorage.setItem('waBestReaction',best);
+      showBest();
+
+      document.getElementById('reactionResult').textContent+=' — NEW RECORD!';
+    }
+
+    addWin();
+    beep(700,.2);
+  }
+  else if(reactionState==='idle'){
+    document.getElementById('reactionResult').textContent='Press START TEST first!';
+  }
+}
+
+// TIC TAC TOE
+let cells=Array(9).fill('');
+let current='X',tttOver=false;
+
+const lines=[
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
+];
+
+function resetTTT(){
+  cells=Array(9).fill('');
+  current='X';
+  tttOver=false;
+
+  document.getElementById('tttResult').textContent='';
+  document.getElementById('tttStatus').textContent="Player X's turn";
+
+  drawBoard();
+}
+
+function drawBoard(){
+  const board=document.getElementById('board');
+  board.innerHTML='';
+
+  cells.forEach((value,i)=>{
+    const button=document.createElement('button');
+
+    button.className='cell';
+    button.textContent=value;
+    button.style.color=value==='X'?'#67e8f9':'#c084fc';
+    button.disabled=!!value||tttOver;
+    button.onclick=()=>moveTTT(i);
+
+    board.appendChild(button);
+  });
+}
+
+function winner(){
+  for(const line of lines){
+    const [a,b,c]=line;
+
+    if(cells[a]&&cells[a]===cells[b]&&cells[b]===cells[c])
+      return cells[a];
+  }
+
+  return cells.every(Boolean)?'draw':null;
+}
+
+function moveTTT(i){
+  if(tttOver||cells[i])return;
+
+  cells[i]=current;
+  beep(current==='X'?500:650);
+
+  const result=winner();
+
+  if(result){
+    finishTTT(result);
+    return;
+  }
+
+  current=current==='X'?'O':'X';
+  drawBoard();
+
+  document.getElementById('tttStatus').textContent=`Player ${current}'s turn`;
+
+  if(current==='O'&&document.getElementById('tttMode').value==='computer'){
+    setTimeout(computerMove,350);
+  }
+}
+
+function computerMove(){
+  if(tttOver)return;
+
+  const empty=cells
+    .map((v,i)=>v?null:i)
+    .filter(v=>v!==null);
+
+  // Try winning, then blocking, otherwise random
+  function findMove(mark){
+    for(const i of empty){
+      cells[i]=mark;
+      const wins=winner()===mark;
+      cells[i]='';
+
+      if(wins)return i;
+    }
+
+    return null;
+  }
+
+  const move=findMove('O')??findMove('X')??empty[Math.floor(Math.random()*empty.length)];
+
+  if(move!==undefined)moveTTT(move);
+}
+
+function finishTTT(result){
+  tttOver=true;
+  drawBoard();
+
+  const message=result==='draw'?"IT'S A DRAW!":result+' WINS! 🎉';
+
+  document.getElementById('tttResult').textContent=message;
+  document.getElementById('tttStatus').textContent='Game finished';
+
+  if(result==='X'||(result==='O'&&document.getElementById('tttMode').value==='friend')){
+    addWin();
+  }
+
+  beep(result==='draw'?400:800,.25);
+}
+</script>
+
+</body>
+</html>
